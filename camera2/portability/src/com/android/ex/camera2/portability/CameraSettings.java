@@ -59,6 +59,18 @@ public abstract class CameraSettings {
     protected boolean mRecordingHintEnabled;
     protected GpsData mGpsData;
     protected Size mExifThumbnailSize;
+    /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+    protected String mBurstMode;
+    protected int mBurstLength;
+    protected String mPreviewWindowSize;
+    protected String mColorEffect;
+    protected String mSaturation;
+    protected String mBrightness;
+    protected String mContrast;
+    protected String mHue;
+    protected String mSharpness;
+    protected String mAntiBanding;
+    /*$_rk_$_modify_$_end*/
 
     /**
      * An immutable class storing GPS related information.
@@ -140,6 +152,18 @@ public abstract class CameraSettings {
         mRecordingHintEnabled = src.mRecordingHintEnabled;
         mGpsData = src.mGpsData;
         mExifThumbnailSize = src.mExifThumbnailSize;
+        /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+        mBurstMode = src.mBurstMode;
+        mBurstLength = src.mBurstLength;
+        mPreviewWindowSize = src.mPreviewWindowSize;
+        mColorEffect = src.mColorEffect;
+        mSaturation = src.mSaturation;
+        mContrast = src.mContrast;
+        mBrightness = src.mBrightness;
+        mSharpness = src.mSharpness;
+        mHue = src.mHue;
+        mAntiBanding = src.mAntiBanding;
+        /*$_rk_$_modify_$_end*/
     }
 
     /**
@@ -509,4 +533,86 @@ public abstract class CameraSettings {
     public Size getExifThumbnailSize() {
         return (mExifThumbnailSize == null) ? null : new Size(mExifThumbnailSize);
     }
+
+    /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+    public void setBurstMode(String mode) {
+        mBurstMode = mode;
+    }
+
+    public String getBurstMode() {
+        return mBurstMode;
+    }
+
+    public void setBurstLength(int length) {
+        mBurstLength = length;
+    }
+
+    public int getBurstLength() {
+        return mBurstLength;
+    }
+
+    public void setPreviewWindowSize(String size) {
+        mPreviewWindowSize = size;
+    }
+
+    public String getPreviewWindowSize() {
+        return mPreviewWindowSize;
+    }
+
+    public void setColorEffect(String effect) {
+        mColorEffect = effect;
+    }
+
+    public String getColorEffect() {
+        return mColorEffect;
+    }
+
+    public void setSaturation(String saturation) {
+        mSaturation = saturation;
+    }
+
+    public String getSaturation() {
+        return mSaturation;
+    }
+
+    public void setContrast(String contrast) {
+        mContrast = contrast;
+    }
+
+    public String getContrast() {
+        return mContrast;
+    }
+
+    public void setBrightness(String brightness) {
+        mBrightness = brightness;
+    }
+
+    public String getBrightness() {
+        return mBrightness;
+    }
+
+    public void setSharpness(String sharpness) {
+        mSharpness = sharpness;
+    }
+
+    public String getSharpness() {
+        return mSharpness;
+    }
+
+    public void setHue(String hue) {
+        mHue= hue;
+    }
+
+    public String getHue() {
+        return mHue;
+    }
+
+    public void setAntiBanding(String antibanding) {
+        mAntiBanding = antibanding;
+    }
+
+    public String getAntiBanding() {
+        return mAntiBanding;
+    }
+    /*$_rk_$_modify_$_end*/
 }

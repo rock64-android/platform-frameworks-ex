@@ -17,9 +17,11 @@
 package com.android.ex.camera2.portability;
 
 import android.hardware.Camera;
+import android.text.TextUtils;
 
 import com.android.ex.camera2.portability.debug.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -57,6 +59,15 @@ class AndroidCameraCapabilities extends CameraCapabilities {
         buildFlashModes(p);
         buildFocusModes(p);
         buildWhiteBalances(p);
+        /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+        buildColorEffects(p);
+        buildSaturations(p);
+        buildContrasts(p);
+        buildSharpnesses(p);
+        buildBrightnesses(p);
+        buildHues(p);
+        buildAntiBandings(p);
+        /*$_rk_$_modify_$_end*/
 
         if (p.isZoomSupported()) {
             mMaxZoomRatio = p.getZoomRatios().get(p.getMaxZoom()) / ZOOM_MULTIPLIER;
@@ -214,7 +225,7 @@ class AndroidCameraCapabilities extends CameraCapabilities {
     }
 
     private void buildWhiteBalances(Camera.Parameters p) {
-        List<String> supportedWhiteBalances = p.getSupportedFocusModes();
+        List<String> supportedWhiteBalances = p.getSupportedWhiteBalance();
         if (supportedWhiteBalances != null) {
             for (String wb : supportedWhiteBalances) {
                 if (Camera.Parameters.WHITE_BALANCE_AUTO.equals(wb)) {
@@ -237,6 +248,100 @@ class AndroidCameraCapabilities extends CameraCapabilities {
             }
         }
     }
+
+    /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+    // Splits a comma delimited string to an ArrayList of String.
+    // Return null if the passing string is null or the size is 0.
+    private ArrayList<String> split(String str) {
+        if (str == null) return null;
+
+        TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+        splitter.setString(str);
+        ArrayList<String> substrings = new ArrayList<String>();
+        for (String s : splitter) {
+            substrings.add(s);
+        }
+        return substrings;
+    }
+
+    private void buildColorEffects(Camera.Parameters p) {
+        List<String> supportedColorEffects = p.getSupportedColorEffects();
+        if (supportedColorEffects != null) {
+            for (String coloreffect : supportedColorEffects) {
+                mSupportedColorEffects.add(coloreffect);
+            }
+        }
+    }
+
+    private void buildSaturations(Camera.Parameters p) {
+        String SUPPORTED_VALUES_SUFFIX = "-values";
+        String KEY_SATURATION_MODE = "saturation-mode";
+        String str = p.get(KEY_SATURATION_MODE + SUPPORTED_VALUES_SUFFIX);
+        List<String> supportedSaturations = split(str);
+        if (supportedSaturations != null) {
+            for (String saturation : supportedSaturations) {
+                mSupportedSaturations.add(saturation);
+            }
+        }
+    }
+
+    private void buildContrasts(Camera.Parameters p) {
+        String SUPPORTED_VALUES_SUFFIX = "-values";
+        String KEY_CONTRAST_MODE = "contrast-mode";
+        String str = p.get(KEY_CONTRAST_MODE + SUPPORTED_VALUES_SUFFIX);
+        List<String> supportedContrasts = split(str);
+        if (supportedContrasts != null) {
+            for (String contrast : supportedContrasts) {
+                mSupportedContrasts.add(contrast);
+            }
+        }
+    }
+
+    private void buildSharpnesses(Camera.Parameters p) {
+        String SUPPORTED_VALUES_SUFFIX = "-values";
+        String KEY_SHARPNESS_MODE = "sharpness-mode";
+        String str = p.get(KEY_SHARPNESS_MODE + SUPPORTED_VALUES_SUFFIX);
+        List<String> supportedSharpnesses = split(str);
+        if (supportedSharpnesses != null) {
+            for (String sharpness : supportedSharpnesses) {
+                mSupportedSharpnesses.add(sharpness);
+            }
+        }
+    }
+
+    private void buildBrightnesses(Camera.Parameters p) {
+        String SUPPORTED_VALUES_SUFFIX = "-values";
+        String KEY_BRIGHTNESS_MODE = "brightness-mode";
+        String str = p.get(KEY_BRIGHTNESS_MODE + SUPPORTED_VALUES_SUFFIX);
+        List<String> supportedBrightnesses = split(str);
+        if (supportedBrightnesses != null) {
+            for (String brightness : supportedBrightnesses) {
+                mSupportedBrightnesses.add(brightness);
+            }
+        }
+    }
+
+    private void buildHues(Camera.Parameters p) {
+        String SUPPORTED_VALUES_SUFFIX = "-values";
+        String KEY_HUE_MODE = "hue-mode";
+        String str = p.get(KEY_HUE_MODE + SUPPORTED_VALUES_SUFFIX);
+        List<String> supportedHues = split(str);
+        if (supportedHues != null) {
+            for (String hue : supportedHues) {
+                mSupportedHues.add(hue);
+            }
+        }
+    }
+
+    private void buildAntiBandings(Camera.Parameters p) {
+        List<String> supportedAntiBandings = p.getSupportedAntibanding();
+        if (supportedAntiBandings != null) {
+            for (String antiBanding : supportedAntiBandings) {
+                mSupportedAntiBandings.add(antiBanding);
+            }
+        }
+    }
+    /*$_rk_$_modify_$_end*/
 
     private static class FpsComparator implements Comparator<int[]> {
         @Override

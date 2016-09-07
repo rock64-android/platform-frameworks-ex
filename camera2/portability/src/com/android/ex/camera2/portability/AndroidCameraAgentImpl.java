@@ -264,6 +264,17 @@ class AndroidCameraAgentImpl extends CameraAgent {
         private ParametersCache mParameterCache;
         private int mCancelAfPending = 0;
 
+        /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+        private static final String KEY_BURST_SUPPORT = "burst-support";
+        private static final String KEY_BURST_LENGTH = "burst-length";
+        private static final String KEY_PREVIEW_WINDOW_SIZE = "preview-window-size";
+        private static final String KEY_SATURATION_MODE = "saturation-mode";
+        private static final String KEY_BRIGHTNESS_MODE = "brightness-mode";
+        private static final String KEY_CONTRAST_MODE = "contrast-mode";
+        private static final String KEY_HUE_MODE = "hue-mode";
+        private static final String KEY_SHARPNESS_MODE = "sharpness-mode";
+        /*$_rk_$_modify_$_end*/
+
         private class CaptureCallbacks {
             public final ShutterCallback mShutter;
             public final PictureCallback mRaw;
@@ -350,7 +361,7 @@ class AndroidCameraAgentImpl extends CameraAgent {
             super.handleMessage(msg);
 
             if (getCameraState().isInvalid()) {
-                Log.v(TAG, "Skip handleMessage - action = '" + CameraActions.stringify(msg.what) + "'");
+                Log.w(TAG, "Skip handleMessage - action = '" + CameraActions.stringify(msg.what) + "'");
                 return;
             }
             Log.v(TAG, "handleMessage - action = '" + CameraActions.stringify(msg.what) + "'");
@@ -678,6 +689,8 @@ class AndroidCameraAgentImpl extends CameraAgent {
             if (mCapabilities.supports(CameraCapabilities.Feature.AUTO_WHITE_BALANCE_LOCK)) {
                 parameters.setAutoWhiteBalanceLock(settings.isAutoWhiteBalanceLocked());
             }
+            if (settings.getWhiteBalance() != null)
+                parameters.setWhiteBalance(stringifier.stringify(settings.getWhiteBalance()));
             if (mCapabilities.supports(CameraCapabilities.Feature.FOCUS_AREA)) {
                 if (settings.getFocusAreas().size() != 0) {
                     parameters.setFocusAreas(settings.getFocusAreas());
@@ -723,6 +736,37 @@ class AndroidCameraAgentImpl extends CameraAgent {
                     parameters.setGpsProcessingMethod(gpsData.processingMethod);
                 }
             }
+
+            /*$_rk_$_modify_$_beging_$_by cx@rockchip.com*/
+            if (settings.getBurstMode() != null)
+                parameters.set(KEY_BURST_SUPPORT, settings.getBurstMode());
+            if (settings.getBurstLength() > 0)
+                parameters.set(KEY_BURST_LENGTH, settings.getBurstLength());
+
+            if (settings.getPreviewWindowSize() != null)
+                parameters.set(KEY_PREVIEW_WINDOW_SIZE, settings.getPreviewWindowSize());
+
+            if (settings.getColorEffect() != null)
+                parameters.setColorEffect(settings.getColorEffect());
+
+            if (settings.getSaturation() != null)
+                parameters.set(KEY_SATURATION_MODE, settings.getSaturation());
+
+            if (settings.getContrast() != null)
+                parameters.set(KEY_CONTRAST_MODE, settings.getContrast());
+
+            if (settings.getBrightness() != null)
+                parameters.set(KEY_BRIGHTNESS_MODE, settings.getBrightness());
+
+            if (settings.getSharpness() != null)
+                parameters.set(KEY_SHARPNESS_MODE, settings.getSharpness());
+
+            if (settings.getHue() != null)
+                parameters.set(KEY_HUE_MODE, settings.getHue());
+
+            if (settings.getAntiBanding() != null)
+                parameters.setAntibanding(settings.getAntiBanding());
+            /*$_rk_$_modify_$_end*/
 
         }
 
