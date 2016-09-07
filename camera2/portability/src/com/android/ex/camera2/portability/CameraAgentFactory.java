@@ -44,7 +44,7 @@ public class CameraAgentFactory {
     private static final String API_LEVEL_OVERRIDE_API1 = "1";
     private static final String API_LEVEL_OVERRIDE_API2 = "2";
     private static final String API_LEVEL_OVERRIDE_VALUE =
-            SystemProperties.get(API_LEVEL_OVERRIDE_KEY, API_LEVEL_OVERRIDE_DEFAULT);
+            SystemProperties.get(API_LEVEL_OVERRIDE_KEY, API_LEVEL_OVERRIDE_API1);
 
     private static CameraAgent sAndroidCameraAgent;
     private static CameraAgent sAndroidCamera2Agent;
@@ -117,7 +117,17 @@ public class CameraAgentFactory {
                 sAndroidCameraAgent = new AndroidCameraAgentImpl();
                 sAndroidCameraAgentClientCount = 1;
             } else {
-                ++sAndroidCameraAgentClientCount;
+                CameraStateHolder camerastate = sAndroidCameraAgent.getCameraState();
+                if (camerastate != null && camerastate.isInvalid()) {
+                    Log.w(TAG, "CameraAgentFactory camerastate.isInvalid() = "
+                            + camerastate.isInvalid());
+                    sAndroidCameraAgent.recycle();
+                    sAndroidCameraAgent = null;
+                    sAndroidCameraAgent = new AndroidCameraAgentImpl();
+                    sAndroidCameraAgentClientCount = 1;
+                } else {
+                    ++sAndroidCameraAgentClientCount;
+                }
             }
             return sAndroidCameraAgent;
         } else { // API_2
