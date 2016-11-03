@@ -273,6 +273,7 @@ class AndroidCameraAgentImpl extends CameraAgent {
         private static final String KEY_CONTRAST_MODE = "contrast-mode";
         private static final String KEY_HUE_MODE = "hue-mode";
         private static final String KEY_SHARPNESS_MODE = "sharpness-mode";
+        private static final String KEY_3DNR_ENABLED = "3dnr_enabled";
         /*$_rk_$_modify_$_end*/
 
         private class CaptureCallbacks {
@@ -766,6 +767,8 @@ class AndroidCameraAgentImpl extends CameraAgent {
 
             if (settings.getAntiBanding() != null)
                 parameters.setAntibanding(settings.getAntiBanding());
+
+            parameters.set(KEY_3DNR_ENABLED, settings.is3dnrEnabled() ? "true" : "false");
             /*$_rk_$_modify_$_end*/
 
         }

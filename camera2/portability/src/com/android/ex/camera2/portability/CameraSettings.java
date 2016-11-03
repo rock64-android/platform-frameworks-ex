@@ -70,6 +70,7 @@ public abstract class CameraSettings {
     protected String mHue;
     protected String mSharpness;
     protected String mAntiBanding;
+    protected boolean m3dnrEnabled;
     /*$_rk_$_modify_$_end*/
 
     /**
@@ -163,6 +164,7 @@ public abstract class CameraSettings {
         mSharpness = src.mSharpness;
         mHue = src.mHue;
         mAntiBanding = src.mAntiBanding;
+        m3dnrEnabled = src.m3dnrEnabled;
         /*$_rk_$_modify_$_end*/
     }
 
@@ -613,6 +615,14 @@ public abstract class CameraSettings {
 
     public String getAntiBanding() {
         return mAntiBanding;
+    }
+
+    public void set3dnrEnabled(boolean enabled) {
+        m3dnrEnabled = enabled;
+    }
+
+    public boolean is3dnrEnabled() {
+        return m3dnrEnabled;
     }
     /*$_rk_$_modify_$_end*/
 }
